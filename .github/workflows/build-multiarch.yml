@@ -26,6 +26,7 @@ jobs:
           - java21-alpine
           - java21-graalvm
           - java21-jdk
+          - java21-alpaquita
           - java17
           - java17-graalvm
           - java17-alpine
