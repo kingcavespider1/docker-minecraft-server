@@ -34,7 +34,7 @@ jobs:
           - java8-openj9
           - java8-jdk
         include:
-        # JAVA 24
+          # JAVA 24
           - variant: java24
             baseImage: eclipse-temurin:24-jre
             platforms: linux/amd64,linux/arm64
@@ -43,7 +43,7 @@ jobs:
             baseImage: container-registry.oracle.com/graalvm/jdk:24-ol8
             platforms: linux/amd64,linux/arm64
             mcVersion: latest
-        # JAVA 21:
+          # JAVA 21:
           - variant: java21-graalvm
             baseImage: container-registry.oracle.com/graalvm/jdk:21-ol8
             platforms: linux/amd64,linux/arm64
@@ -60,7 +60,11 @@ jobs:
             baseImage: eclipse-temurin:21-jre-alpine
             platforms: linux/amd64,linux/arm64
             mcVersion: latest
-        # JAVA 17:
+          - variant: java21-alpaquita
+            baseImage: bellsoft/liberica-runtime-container:jre-21-musl
+            platforms: linux/amd64,linux/arm64
+            mcVersion: latest
+          # JAVA 17:
           - variant: java17
             # jammy doesn't work until minecraft updates to https://github.com/netty/netty/issues/12343
             baseImage: eclipse-temurin:17-jre-focal
@@ -74,7 +78,7 @@ jobs:
             baseImage: eclipse-temurin:17-jre-alpine
             platforms: linux/amd64
             mcVersion: 1.20.4
-        # JAVA 8: NOTE: Unable to go past 8u312 because of Forge dependencies
+          # JAVA 8: NOTE: Unable to go past 8u312 because of Forge dependencies
           - variant: java8
             baseImage: eclipse-temurin:8u312-b07-jre-focal
             platforms: linux/amd64,linux/arm/v7,linux/arm64
@@ -114,7 +118,7 @@ jobs:
             ghcr.io/${{ github.repository_owner }}/minecraft-server
           tags: |
             # Apply the variant as a moving tag for most recent commit per variant
-            type=raw,value=${{ matrix.variant }},enable=${{ github.ref_name == github.event.repository.default_branch }}            
+            type=raw,value=${{ matrix.variant }},enable=${{ github.ref_name == github.event.repository.default_branch }}
             # For the "main" variant, it gets the tag as-is
             type=pep440,pattern={{version}},enable=${{ matrix.variant == env.MAIN_VARIANT }}
             # ...and all variants (including main one) get the tag with the variant suffix, such as 2023.1.1-java17
@@ -184,13 +188,13 @@ jobs:
         with:
           platforms: ${{ matrix.platforms }}
           push: >
-            ${{ 
-            github.ref_type == 'tag' 
+            ${{
+            github.ref_type == 'tag'
             || github.ref_name == github.event.repository.default_branch
             || startsWith(github.ref_name, 'test/')
-            || ( github.event_name == 'pull_request' 
-                 && env.HAS_IMAGE_REPO_ACCESS 
-                 && contains(github.event.pull_request.labels.*.name, 'ci/push-image') 
+            || ( github.event_name == 'pull_request'
+                 && env.HAS_IMAGE_REPO_ACCESS
+                 && contains(github.event.pull_request.labels.*.name, 'ci/push-image')
                )
             }}
           tags: ${{ steps.meta.outputs.tags }}
