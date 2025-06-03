@@ -153,14 +153,22 @@ fi
 
 if isTrue "${USE_AIKAR_FLAGS}"; then
   # From https://mcflags.emc.gs/
-
-  if [[ $MAX_MEMORY ]] && (( $(normalizeMemSize "${MAX_MEMORY}") >= $(normalizeMemSize 12g) )); then
+  if isTrue "${USE_MEOWICE_FLAGS}"; then
+    log "Using Meowice's flags"
+    G1NewSizePercent=28
+    G1MaxNewSizePercent=50
+    G1HeapRegionSize=16M
+    G1ReservePercent=15
+    InitiatingHeapOccupancyPercent=20
+    G1MixedGCCountTarget=3
+  elif [[ $MAX_MEMORY ]] && (( $(normalizeMemSize "${MAX_MEMORY}") >= $(normalizeMemSize 12g) )); then
     log "Using Aikar's >12GB flags"
     G1NewSizePercent=40
     G1MaxNewSizePercent=50
     G1HeapRegionSize=16M
     G1ReservePercent=15
     InitiatingHeapOccupancyPercent=20
+    G1MixedGCCountTarget=4
   else
     log "Using Aikar's flags"
     G1NewSizePercent=30
@@ -168,6 +176,7 @@ if isTrue "${USE_AIKAR_FLAGS}"; then
     G1HeapRegionSize=8M
     G1ReservePercent=20
     InitiatingHeapOccupancyPercent=15
+    G1MixedGCCountTarget=4
   fi
 
   JVM_XX_OPTS="${JVM_XX_OPTS}
@@ -182,7 +191,7 @@ if isTrue "${USE_AIKAR_FLAGS}"; then
   -XX:G1HeapRegionSize=${G1HeapRegionSize}
   -XX:G1ReservePercent=${G1ReservePercent}
   -XX:G1HeapWastePercent=5
-  -XX:G1MixedGCCountTarget=4
+  -XX:G1MixedGCCountTarget=${G1MixedGCCountTarget}
   -XX:InitiatingHeapOccupancyPercent=${InitiatingHeapOccupancyPercent}
   -XX:G1MixedGCLiveThresholdPercent=90
   -XX:G1RSetUpdatingPauseTimePercent=5
@@ -195,25 +204,7 @@ if isTrue "${USE_AIKAR_FLAGS}"; then
 fi
 
 if isTrue "${USE_MEOWICE_FLAGS}"; then
-  log "Using Meowice's flags"
   JVM_XX_OPTS="${JVM_XX_OPTS}
-  -XX:+UseG1GC
-  -XX:MaxGCPauseMillis=200
-  -XX:+UnlockExperimentalVMOptions
-  -XX:+UnlockDiagnosticVMOptions
-  -XX:+DisableExplicitGC
-  -XX:+AlwaysPreTouch
-  -XX:G1NewSizePercent=28
-  -XX:G1MaxNewSizePercent=50
-  -XX:G1HeapRegionSize=16M
-  -XX:G1ReservePercent=15
-  -XX:G1MixedGCCountTarget=3
-  -XX:InitiatingHeapOccupancyPercent=20
-  -XX:G1MixedGCLiveThresholdPercent=90
-  -XX:SurvivorRatio=32
-  -XX:G1HeapWastePercent=5
-  -XX:MaxTenuringThreshold=1
-  -XX:+PerfDisableSharedMem
   -XX:G1SATBBufferEnqueueingThresholdPercent=30
   -XX:G1ConcMarkStepDurationMillis=5
   -XX:G1RSetUpdatingPauseTimePercent=0
