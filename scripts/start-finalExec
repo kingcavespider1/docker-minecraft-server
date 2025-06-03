@@ -195,6 +195,7 @@ if isTrue "${USE_AIKAR_FLAGS}"; then
 fi
 
 if isTrue "${USE_MEOWICE_FLAGS}"; then
+  log "Using Meowice's flags"
   JVM_XX_OPTS="${JVM_XX_OPTS}
   -XX:+UseG1GC
   -XX:MaxGCPauseMillis=200
