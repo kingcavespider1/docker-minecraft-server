@@ -36,6 +36,15 @@ jobs:
           - java8-openj9
           - java8-jdk
         include:
+          # LATEST
+          - variant: alpaquita-latest
+            baseImage: bellsoft/liberica-runtime-container:jre-musl
+            platforms: linux/amd64,linux/arm64
+            mcVersion: latest
+          - variant: graalvm-latest
+            baseImage: container-registry.oracle.com/graalvm/jdk:latest
+            platforms: linux/amd64,linux/arm64
+            mcVersion: latest
           # JAVA 24
           - variant: java24
             baseImage: eclipse-temurin:24-jre
