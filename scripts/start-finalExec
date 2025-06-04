@@ -165,6 +165,7 @@ if isTrue "${USE_AIKAR_FLAGS}"; then
     G1ReservePercent=15
     InitiatingHeapOccupancyPercent=20
     G1MixedGCCountTarget=3
+    G1RSetUpdatingPauseTimePercent=0
   elif [[ $MAX_MEMORY ]] && (( $(normalizeMemSize "${MAX_MEMORY}") >= $(normalizeMemSize 12g) )); then
     log "Using Aikar's >12GB flags"
     G1NewSizePercent=40
@@ -173,6 +174,7 @@ if isTrue "${USE_AIKAR_FLAGS}"; then
     G1ReservePercent=15
     InitiatingHeapOccupancyPercent=20
     G1MixedGCCountTarget=4
+    G1RSetUpdatingPauseTimePercent=5
   else
     log "Using Aikar's flags"
     G1NewSizePercent=30
@@ -181,6 +183,7 @@ if isTrue "${USE_AIKAR_FLAGS}"; then
     G1ReservePercent=20
     InitiatingHeapOccupancyPercent=15
     G1MixedGCCountTarget=4
+    G1RSetUpdatingPauseTimePercent=5
   fi
 
   JVM_XX_OPTS="${JVM_XX_OPTS}
@@ -198,7 +201,7 @@ if isTrue "${USE_AIKAR_FLAGS}"; then
   -XX:G1MixedGCCountTarget=${G1MixedGCCountTarget}
   -XX:InitiatingHeapOccupancyPercent=${InitiatingHeapOccupancyPercent}
   -XX:G1MixedGCLiveThresholdPercent=90
-  -XX:G1RSetUpdatingPauseTimePercent=5
+  -XX:G1RSetUpdatingPauseTimePercent=${G1RSetUpdatingPauseTimePercent}
   -XX:SurvivorRatio=32
   -XX:+PerfDisableSharedMem
   -XX:MaxTenuringThreshold=1
@@ -212,7 +215,6 @@ if isTrue "${USE_MEOWICE_FLAGS}"; then
   -XX:+UnlockDiagnosticVMOptions
   -XX:G1SATBBufferEnqueueingThresholdPercent=30
   -XX:G1ConcMarkStepDurationMillis=5
-  -XX:G1RSetUpdatingPauseTimePercent=0
   -XX:+UseNUMA
   -XX:-DontCompileHugeMethods
   -XX:MaxNodeLimit=240000
