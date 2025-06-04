@@ -151,6 +151,10 @@ if isTrue "${ENABLE_JMX}"; then
   log "JMX is enabled. Make sure you have port forwarding for ${JMX_PORT}"
 fi
 
+if isTrue "${USE_MEOWICE_FLAGS}"; then
+  USE_AIKAR_FLAGS=TRUE
+fi
+
 if isTrue "${USE_AIKAR_FLAGS}"; then
   # From https://mcflags.emc.gs/
   if isTrue "${USE_MEOWICE_FLAGS}"; then
