@@ -27,6 +27,7 @@ jobs:
           - java21-alpine
           - java21-graalvm
           - java21-jdk
+          - java21-alpaquita
           - java17
           - java17-graalvm
           - java17-alpine
@@ -59,6 +60,10 @@ jobs:
             mcVersion: latest
           - variant: java21-alpine
             baseImage: eclipse-temurin:21-jre-alpine
+            platforms: linux/amd64,linux/arm64
+            mcVersion: latest
+          - variant: java21-alpaquita
+            baseImage: bellsoft/liberica-runtime-container:jre-21-musl
             platforms: linux/amd64,linux/arm64
             mcVersion: latest
           # JAVA 17:

@@ -124,7 +124,7 @@ function log() {
 function getSudoFromDistro(){
   distro=$(getDistro)
   command=
-  if [[ $distro == alpine ]]; then
+  if [[ $distro =~ ^(alpine|alpaquita)$ ]]; then
     command="su-exec"
   else
     command="gosu"
@@ -200,7 +200,7 @@ function isNumeric() {
 function isNumericElseSetToDefault() {
   local var_name="$1"
   local default_value="$2"
-  
+
   if ! isNumeric ${!var_name} ; then
     eval "$var_name=$default_value"
     export "$var_name"
