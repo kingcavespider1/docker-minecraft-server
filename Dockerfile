@@ -1,4 +1,4 @@
-ARG BASE_IMAGE=eclipse-temurin:21-jre
+ARG BASE_IMAGE=container-registry.oracle.com/graalvm/jdk:24
 FROM ${BASE_IMAGE}
 
 # hook into docker BuildKit --platform support
