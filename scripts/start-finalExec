@@ -151,7 +151,7 @@ if isTrue "${ENABLE_JMX}"; then
   log "JMX is enabled. Make sure you have port forwarding for ${JMX_PORT}"
 fi
 
-if [[ ${USE_AIKAR_FLAGS} || ${USE_MEOWICE_FLAGS} || ${USE_MEOWICE_GRAALVM_FLAGS} ]]; then
+if [[ -z "${USE_AIKAR_FLAGS}" || -z "${USE_MEOWICE_FLAGS}" || -z "${USE_MEOWICE_GRAALVM_FLAGS}" ]]; then
   log "No JVM flags selected, autoselecting"
   USE_MEOWICE_FLAGS=TRUE
 fi
