@@ -454,7 +454,7 @@ function checkSum() {
   debian | ubuntu | ol)
     sha1sum -c "${sum_file}" --status 2>/dev/null && return 0
     ;;
-  alpine)
+  alpine | alpaquita)
     sha1sum -c "${sum_file}" -s 2>/dev/null && return 0
     ;;
   *)
