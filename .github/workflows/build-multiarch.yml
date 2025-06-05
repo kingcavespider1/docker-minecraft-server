@@ -21,6 +21,8 @@ jobs:
       matrix:
         # NOTE: the "latest" variant is identified in the Docker meta step's 'latest' config
         variant:
+          - alpaquita-latest
+          - graalvm-latest
           - java24
           - java24-graalvm
           - java21
